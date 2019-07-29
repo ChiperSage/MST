@@ -28,9 +28,7 @@
 <ul class="dropdown-menu" role="menu">
 	<!-- <li><a target="_blank" href="<?php echo base_url() ?>cetak/rup_skpa?type=pdf">PDF</a></li> -->
 	<!-- <li><a target="_blank" href="<?php echo base_url() ?>cetak/rup_skpa?type=image">Image</a></li> -->
-
 	<li><a target="_blank" href="<?php echo base_url() ?>monev/view_rup_skpa?type=pdf">PDF</a></li>
-	<!-- <li><a target="_blank" href="<?php echo base_url() ?>monev/view_rup_skpa?type=image">Image</a></li> -->
 	<li><a target="_blank" href="<?php echo base_url() ?>monev/view_rup_skpa?type=excel">Excel</a></li>
 </ul>
 </div>
@@ -46,7 +44,8 @@
 						<tr>
 							<th rowspan="4" style="vertical-align:middle">No.</th>
 							<th class="text-center text-capitalize" rowspan="4" style="vertical-align:middle">Nama Satker</th>
-							<th class="text-center" rowspan="2" colspan="2" style="vertical-align:middle">Paket Tender</th>
+							<th class="text-center" rowspan="2" colspan="2" style="vertical-align:middle">Tender</th>
+							<th class="text-center" rowspan="2" colspan="2" style="vertical-align:middle">Tender Cepat</th>
 							<th class="text-center" style="vertical-align:middle" colspan="8"> Paket Non Tender</th>
 							<th class="text-center" style="vertical-align:middle" rowspan="2" colspan="2"> Swakelola</th>
 							<th class="text-center" style="vertical-align:middle" rowspan="2" colspan="2"> Total</th>
@@ -80,11 +79,17 @@
 							<th class="text-center">Paket</th>
 							<th class="text-center">Pagu</th>
 
+							<th class="text-center">Paket</th>
+							<th class="text-center">Pagu</th>
+
 						</tr>
 						<tr>
 
 							<th class="text-center"><?php echo number_format($total[0]->pt_paket); ?></th>
 				      <th class="text-center"><?php echo number_format($total[0]->pt_pagu); ?></th>
+
+							<th class="text-center"><?php echo number_format($total[0]->tc_paket); ?></th>
+				      <th class="text-center"><?php echo number_format($total[0]->tc_pagu); ?></th>
 
 				      <th class="text-center"><?php echo number_format($total[0]->pl_paket); ?></th>
 				      <th class="text-center"><?php echo number_format($total[0]->pl_pagu); ?></th>
@@ -103,6 +108,7 @@
 
 				      <th class="text-center"><?php echo number_format($total[0]->tt_paket); ?></th>
 				      <th class="text-center"><?php echo number_format($total[0]->tt_pagu); ?></th>
+
 						</tr>
 					</thead>
 					<tbody>
@@ -114,6 +120,9 @@
 
 								<td class="text-center"><?php echo $val->pt_paket ?></td>
 								<td class="text-right"><?php echo number_format($val->pt_pagu) ?></td>
+
+								<td class="text-center"><?php echo $val->tc_paket ?></td>
+								<td class="text-right"><?php echo number_format($val->tc_pagu) ?></td>
 
 								<td class="text-center"><?php echo $val->pl_paket ?></td>
 								<td class="text-right"><?php echo number_format($val->pl_pagu) ?></td>
@@ -132,7 +141,6 @@
 
 								<td class="text-center"><?php echo $val->tt_paket ?></td>
 								<td class="text-right"><?php echo number_format($val->tt_pagu) ?></td>
-
 							</tr>
 
 						<?php } ?>

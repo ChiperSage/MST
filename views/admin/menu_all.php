@@ -252,7 +252,7 @@ $menu_adminkaro = $this->ion_auth->in_group('admin_karo');
     </span>
   </a>
   <ul class="treeview-menu">
-    <li><a href="<?php echo base_url('monev/tender_per_skpa') ?>"><i class="fa fa-tv"></i> Tender Per SKPA</a></li>
+    <li><a href="<?php echo base_url('monev/tender_per_skpa') ?>"><i class="fa fa-tv"></i> Paket Per SKPA</a></li>
   </ul>
   <a href="#">
     <i class="fa fa-folder"></i> <span>View Tender</span>

@@ -28,14 +28,25 @@ class Monev_m extends CI_Model{
 
       -- PAKET Tender
       (SELECT COUNT(r.kode_rup) FROM tb_rup r
-      WHERE (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Tender Cepat' OR r.metode_pemilihan = 'Seleksi')
+      WHERE (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Seleksi')
       AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
       AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pt_paket,
 
       (SELECT SUM(r.pagu_rup) FROM tb_rup r
-      WHERE (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Tender Cepat' OR r.metode_pemilihan = 'Seleksi')
+      WHERE (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Seleksi')
       AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
       AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pt_pagu,
+
+      -- tender cepat
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE (r.metode_pemilihan = 'Tender Cepat')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as tc_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE (r.metode_pemilihan = 'Tender Cepat')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as tc_pagu,
 
       -- Penunjukan Langsung > 200 juta
       (SELECT COUNT(r.kode_rup) FROM tb_rup r
@@ -117,15 +128,237 @@ class Monev_m extends CI_Model{
       -- PAKET Tender
       (SELECT COUNT(r.kode_rup) FROM tb_rup r
       WHERE r.id_satker = a.kode
-      AND (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Tender Cepat' OR r.metode_pemilihan = 'Seleksi')
+      AND (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Seleksi')
       AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
       AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pt_paket,
 
       (SELECT SUM(r.pagu_rup) FROM tb_rup r
       WHERE r.id_satker = a.kode
-      AND (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Tender Cepat' OR r.metode_pemilihan = 'Seleksi')
+      AND (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Seleksi')
       AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
       AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pt_pagu,
+
+      -- Tender Cepat
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND (r.metode_pemilihan = 'Tender Cepat')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as tc_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND (r.metode_pemilihan = 'Tender Cepat')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as tc_pagu,
+
+      -- Penunjukan Langsung > 200 juta
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND (r.metode_pemilihan = 'Penunjukan Langsung' AND r.pagu_rup > 200000000)
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND (r.metode_pemilihan = 'Penunjukan Langsung' AND r.pagu_rup > 200000000)
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl_pagu,
+
+      -- Penunjukan Langsung <= 200 juta
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND (r.metode_pemilihan = 'Penunjukan Langsung' AND r.pagu_rup <= 200000000)
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl1_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND (r.metode_pemilihan = 'Penunjukan Langsung' AND r.pagu_rup <= 200000000)
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl1_pagu,
+
+      -- Pengadaan Langsung
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode AND r.metode_pemilihan = 'Pengadaan Langsung'
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl2_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode AND r.metode_pemilihan = 'Pengadaan Langsung'
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl2_pagu,
+
+      -- e-Purchasing
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode AND r.metode_pemilihan = 'e-Purchasing'
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as ep_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode AND r.metode_pemilihan = 'e-Purchasing'
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as ep_pagu,
+
+      -- swakelola
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'ya') as sw_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'ya') as sw_pagu,
+
+      -- total
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') ) as tt_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') ) as tt_pagu
+
+      FROM tb_skpa a
+      INNER JOIN tb_rup b ON b.id_satker = a.kode
+      WHERE a.instansi != 'pusat'
+      GROUP BY a.kode
+      ORDER BY a.singkatan ASC ";
+      return $this->db->query($str)->result();
+    }
+
+    public function tender_per_skpa_total()
+    {
+      $tahun = date('Y');
+
+      $str = "SELECT a.singkatan,
+
+      -- PAKET Tender
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Seleksi')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pt_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Seleksi')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pt_pagu,
+
+      -- Tender Cepat
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE (r.metode_pemilihan = 'Tender Cepat')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as tc_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE (r.metode_pemilihan = 'Tender Cepat')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as tc_pagu,
+
+      -- Penunjukan Langsung > 200 juta
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE (r.metode_pemilihan = 'Penunjukan Langsung' AND r.pagu_rup > 200000000)
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE (r.metode_pemilihan = 'Penunjukan Langsung' AND r.pagu_rup > 200000000)
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl_pagu,
+
+      -- Penunjukan Langsung <= 200 juta
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE (r.metode_pemilihan = 'Penunjukan Langsung' AND r.pagu_rup <= 200000000)
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl1_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE (r.metode_pemilihan = 'Penunjukan Langsung' AND r.pagu_rup <= 200000000)
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl1_pagu,
+
+      -- Pengadaan Langsung
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.metode_pemilihan = 'Pengadaan Langsung'
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl2_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.metode_pemilihan = 'Pengadaan Langsung'
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pl2_pagu,
+
+      -- e-Purchasing
+
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.metode_pemilihan = 'e-Purchasing'
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as ep_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.metode_pemilihan = 'e-Purchasing'
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as ep_pagu,
+
+      -- swakelola
+
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'ya') as sw_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'ya') as sw_pagu,
+
+      -- total
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') ) as tt_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') ) as tt_pagu
+
+      FROM tb_skpa a
+      INNER JOIN tb_rup b ON b.id_satker = a.kode
+      WHERE a.instansi != 'pusat'
+      ORDER BY a.singkatan ASC ";
+      return $this->db->query($str)->result();
+    }
+
+    public function tender_per_skpa()
+    {
+      $tahun = date('Y');
+
+      $str = "SELECT a.singkatan,
+
+      -- PAKET Tender
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Seleksi')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pt_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND (r.metode_pemilihan = 'Tender' OR r.metode_pemilihan = 'Seleksi')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as pt_pagu,
+
+      -- Tender Cepat
+      (SELECT COUNT(r.kode_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND (r.metode_pemilihan = 'Tender Cepat')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as tc_paket,
+
+      (SELECT SUM(r.pagu_rup) FROM tb_rup r
+      WHERE r.id_satker = a.kode
+      AND (r.metode_pemilihan = 'Tender Cepat')
+      AND left(r.akhir_pekerjaan,4) = $tahun AND (r.status_aktif = 'ya' AND r.status_umumkan = 'sudah')
+      AND (r.sumber_dana LIKE '%APBD%' OR r.sumber_dana LIKE '%BLUD%') AND r.penyedia_didalam_swakelola = 'tidak') as tc_pagu,
 
       -- Penunjukan Langsung > 200 juta
       (SELECT COUNT(r.kode_rup) FROM tb_rup r

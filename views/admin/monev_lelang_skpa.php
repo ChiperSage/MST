@@ -15,7 +15,7 @@
 
     <div class="box box-primary">
       <div class="box-header">
-        <h3 class="box-title"><b class="text-uppercase">Realisasi Jenis Pengadaan (RUP) Tahun <?php echo date('Y') ?> Per SKPA</b></h3>
+        <h3 class="box-title"><b class="text-uppercase">Realisasi Tender dan Non Tender Tahun <?php echo date('Y') ?> Per SKPA</b></h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
@@ -90,8 +90,8 @@
 							<th class="text-center"><?php echo number_format($total[0]->pt_paket); ?></th>
 				      <th class="text-center"><?php echo number_format($total[0]->pt_pagu); ?></th>
 
-							<th class="text-center"><?php //echo number_format($total[0]->pt_paket); ?></th>
-				      <th class="text-center"><?php //echo number_format($total[0]->pt_pagu); ?></th>
+							<th class="text-center"><?php echo number_format($total[0]->tc_paket); ?></th>
+				      <th class="text-center"><?php echo number_format($total[0]->tc_pagu); ?></th>
 
 				      <th class="text-center"><?php echo number_format($total[0]->pl_paket); ?></th>
 				      <th class="text-center"><?php echo number_format($total[0]->pl_pagu); ?></th>
@@ -122,8 +122,8 @@
 								<td class="text-center"><?php echo $val->pt_paket ?></td>
 								<td class="text-right"><?php echo number_format($val->pt_pagu) ?></td>
 
-								<td class="text-center"><?php //echo $val->pt_paket ?></td>
-								<td class="text-right"><?php //echo number_format($val->pt_pagu) ?></td>
+								<td class="text-center"><?php echo $val->tc_paket ?></td>
+								<td class="text-right"><?php echo number_format($val->tc_pagu) ?></td>
 
 								<td class="text-center"><?php echo $val->pl_paket ?></td>
 								<td class="text-right"><?php echo number_format($val->pl_pagu) ?></td>

@@ -73,8 +73,8 @@ class Monev extends CI_Controller {
 	public function tender_per_skpa()
 	{
 		$data['inc'] = 'monev_lelang_skpa';
-		$data['total'] = $this->monev_m->view_persatker_rup_total();
-		$data['laporan'] = $this->monev_m->view_persatker_rup();
+		$data['total'] = $this->monev_m->tender_per_skpa_total();
+		$data['laporan'] = $this->monev_m->tender_per_skpa();
 
 		if(isset( $_GET['type'] ) && $_GET['type'] == 'pdf'){
 			$this->load->view('admin/cetak_rup_skpa', $data);
@@ -89,7 +89,6 @@ class Monev extends CI_Controller {
 	{
 		$data['inc'] = 'monev_view_realisasi_data_lelang_sp';
 		$data['total'] = $this->monev_m->get_total();
-		// $data['subtotal'] = $this->monev_m->get_subtotal();
 		$data['lap'] = $this->monev_m->get_laporan();
 		$this->load->view('admin/index',$data);
 	}
@@ -214,7 +213,6 @@ class Monev extends CI_Controller {
 	public function realisasi_data_tender_sp()
 	{
 		$data['inc'] = 'monev_realisasi_data_tender_sp';
-
 		$data['total'] = $this->monev_m->get_total();
 		$data['lap'] = $this->monev_m->get_laporan();
 
